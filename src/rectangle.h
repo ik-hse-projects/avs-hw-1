@@ -10,7 +10,7 @@ struct rectangle
     struct point bottom_right;
 };
 
-struct rectangle rectancle_read(struct buffer *buffer);
+struct rectangle rectangle_read(struct buffer *buffer);
 void rectangle_print(struct rectangle);
 int rectangle_perimiter(struct rectangle);
 

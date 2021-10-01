@@ -1,6 +1,8 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
+#include "point.h"
+
 struct triangle
 {
     struct point a;

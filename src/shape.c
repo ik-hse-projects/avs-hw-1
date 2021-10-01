@@ -34,9 +34,30 @@ struct shape shape_read(struct buffer *buffer) {
     }
 }
 
-void shape_print(struct shape) {
+void shape_print(struct shape shape) {
+    switch (shape.kind) {
+        case CIRCLE:
+            printf("Circle: ");
+            circle_print(shape.value.circle);
+            return;
+        case RECTANGLE:
+            printf("Rectangle: ");
+            rectangle_print(shape.value.rectangle);
+            return;
+        case TRIANGLE:
+            printf("Triangle: ");
+            triangle_print(shape.value.triangle);
+            return;
+    }
 }
 
-int shape_perimiter(struct shape) {
-
+int shape_perimiter(struct shape shape) {
+    switch (shape.kind) {
+        case CIRCLE:
+            return circle_perimiter(shape.value.circle);
+        case RECTANGLE:
+            return rectangle_perimiter(shape.value.rectangle);
+        case TRIANGLE:
+            return triangle_perimiter(shape.value.triangle);
+    }
 }

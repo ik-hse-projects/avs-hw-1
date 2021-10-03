@@ -15,6 +15,6 @@ enum color {
 };
 
 enum color read_color(struct buffer *buf);
-void print_color(enum color color);
+void print_color(int fd, enum color color);
 
 #endif

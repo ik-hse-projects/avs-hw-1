@@ -19,15 +19,15 @@ struct triangle read_triangle(struct buffer *buffer) {
     return result;
 }
 
-void print_triangle(struct triangle self) {
-    printf("color=");
-    print_color(self.color);
-    printf(", points=");
-    print_point(self.a);
-    printf(" - ");
-    print_point(self.b);
-    printf(" - ");
-    print_point(self.c);
+void print_triangle(int fd, struct triangle self) {
+    dprintf(fd, "color=");
+    print_color(fd, self.color);
+    dprintf(fd, ", points=");
+    print_point(fd, self.a);
+    dprintf(fd, " - ");
+    print_point(fd, self.b);
+    dprintf(fd, " - ");
+    print_point(fd, self.c);
 }
 
 int perimiter_of_triangle(struct triangle self) {

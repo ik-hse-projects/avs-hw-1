@@ -17,13 +17,13 @@ struct rectangle read_rectangle(struct buffer *buffer) {
     return result;
 }
 
-void print_rectangle(struct rectangle self) {
-    printf("color=");
-    print_color(self.color);
-    printf(", top-left=");
-    print_point(self.top_left);
-    printf(", bottom-right=");
-    print_point(self.bottom_right);
+void print_rectangle(int fd, struct rectangle self) {
+    dprintf(fd, "color=");
+    print_color(fd, self.color);
+    dprintf(fd, ", top-left=");
+    print_point(fd, self.top_left);
+    dprintf(fd, ", bottom-right=");
+    print_point(fd, self.bottom_right);
 }
 
 int perimiter_of_rectangle(struct rectangle self) {

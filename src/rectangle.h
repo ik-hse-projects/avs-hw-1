@@ -12,7 +12,7 @@ struct rectangle {
 };
 
 struct rectangle read_rectangle(struct buffer*);
-void print_rectangle(struct rectangle);
+void print_rectangle(int fd, struct rectangle);
 int perimiter_of_rectangle(struct rectangle);
 
 #endif

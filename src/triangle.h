@@ -12,7 +12,7 @@ struct triangle {
 };
 
 struct triangle read_triangle(struct buffer*);
-void print_triangle(struct triangle);
+void print_triangle(int fd, struct triangle);
 int perimiter_of_triangle(struct triangle);
 
 #endif

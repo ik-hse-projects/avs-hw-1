@@ -1,7 +1,7 @@
 #include "vector.h"
 
-#include "stdlib.h"
 #include "stdio.h"
+#include "stdlib.h"
 #include "string.h"
 
 struct shapes_vec {
@@ -71,11 +71,11 @@ void selection_sort_by_perimiter(struct shapes_vec* shapes) {
     }
 }
 
-void print_vector(struct shapes_vec* shapes) {
+void print_vector(int fd, struct shapes_vec* shapes) {
     for (size_t i = 0; i < shapes->length; ++i) {
         struct shape shape = *get(shapes, i);
-        printf("%ld. ", i + 1);
-        print_shape(shape);
-        printf("\n");
+        dprintf(fd, "%ld. ", i + 1);
+        print_shape(fd, shape);
+        dprintf(fd, "\n");
     }
 }

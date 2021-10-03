@@ -15,12 +15,12 @@ struct circle read_circle(struct buffer *buffer) {
     return result;
 }
 
-void print_circle(struct circle self) {
-    printf("color=");
-    print_color(self.color);
-    printf(", center=");
-    print_point(self.center);
-    printf(", radius=%u", self.radius);
+void print_circle(int fd, struct circle self) {
+    dprintf(fd, "color=");
+    print_color(fd, self.color);
+    dprintf(fd, ", center=");
+    print_point(fd, self.center);
+    dprintf(fd, ", radius=%u", self.radius);
 }
 
 int perimiter_of_circle(struct circle self) { return 2 * M_PI * self.radius; }

@@ -7,31 +7,31 @@ enum color read_color(struct buffer *buf) {
     return color;
 }
 
-void print_color(enum color color) {
+void print_color(int fd, enum color color) {
     switch (color) {
         case RED:
-            printf("red");
+            dprintf(fd, "red");
             break;
         case ORANGE:
-            printf("orange");
+            dprintf(fd, "orange");
             break;
         case YELLOW:
-            printf("yellow");
+            dprintf(fd, "yellow");
             break;
         case GREEN:
-            printf("green");
+            dprintf(fd, "green");
             break;
         case LIGHT_BLUE:
-            printf("light blue");
+            dprintf(fd, "light blue");
             break;
         case BLUE:
-            printf("blue");
+            dprintf(fd, "blue");
             break;
         case PURPLE:
-            printf("purple");
+            dprintf(fd, "purple");
             break;
         default:
-            printf("unknown color");
+            dprintf(fd, "unknown color");
             break;
     }
 }

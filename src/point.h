@@ -10,6 +10,6 @@ struct point {
 
 double distance_between(struct point a, struct point b);
 struct point read_point(struct buffer *buf);
-void print_point(struct point self);
+void print_point(int fd, struct point self);
 
 #endif

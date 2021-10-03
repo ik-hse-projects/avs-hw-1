@@ -26,22 +26,22 @@ struct shape read_shape(struct buffer *buffer) {
     }
 }
 
-void print_shape(struct shape shape) {
+void print_shape(int fd, struct shape shape) {
     switch (shape.kind) {
         case CIRCLE:
-            printf("Circle: ");
-            print_circle(shape.value.circle);
+            dprintf(fd, "Circle: ");
+            print_circle(fd, shape.value.circle);
             return;
         case RECTANGLE:
-            printf("Rectangle: ");
-            print_rectangle(shape.value.rectangle);
+            dprintf(fd, "Rectangle: ");
+            print_rectangle(fd, shape.value.rectangle);
             return;
         case TRIANGLE:
-            printf("Triangle: ");
-            print_triangle(shape.value.triangle);
+            dprintf(fd, "Triangle: ");
+            print_triangle(fd, shape.value.triangle);
             return;
         default:
-            printf("Unknown shape: %d", shape.kind);
+            dprintf(fd, "Unknown shape: %d", shape.kind);
             return;
     }
 }

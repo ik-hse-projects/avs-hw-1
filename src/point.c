@@ -22,4 +22,6 @@ struct point read_point(struct buffer *buf) {
     return result;
 }
 
-void print_point(struct point self) { printf("(%i, %i)", self.x, self.y); }
+void print_point(int fd, struct point self) {
+    dprintf(fd, "(%i, %i)", self.x, self.y);
+}

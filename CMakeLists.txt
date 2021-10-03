@@ -12,5 +12,6 @@ set(SOURCE_FILES src/task.c
                  src/task.c
                  src/triangle.c
                  src/vector.c)
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 add_executable(AVS1 ${SOURCE_FILES})
-target_link_libraries(AVS1 m -fsanitize=address)
+target_link_libraries(AVS1 m -fsanitize=address -fsanitize=undefined)

@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 #include "shape.h"
+#include "vector.h"
 
 struct buffer* parse_args(int argc, char** argv) {
     if (argc <= 1) {
@@ -25,7 +27,11 @@ struct buffer* parse_args(int argc, char** argv) {
     switch (option[1]) {
         case 'f': {
             // Read from file
-            int file = open(argument, "r");
+            int file = open(argument, 0);
+            if (file < 0) {
+                dprintf(2, "Can't open the file `%s`: %d", argument, errno);
+                exit(1);
+            }
             buffer = fd_to_buffer(file);
             break;
         }
@@ -67,10 +73,19 @@ int main(int argc, char** argv) {
     }
 
     unsigned int count = buf_uint(buffer, 1, 30);
+    struct shapes_vec* container = empty_vec();
     for (int i = 0; i < count; ++i) {
         buf_whitespace(buffer);
         struct shape shape = shape_read(buffer);
+        *push(container) = shape;
+    }
+    selection_sort_by_perimiter(container);
+    for (size_t i = 0; i < length(container); ++i) {
+        struct shape shape = *get(container, i);
+        printf("%ld. ", i + 1);
         shape_print(shape);
+        printf("\n");
     }
     free_buffer(buffer);
+    free_vec(container);
 }

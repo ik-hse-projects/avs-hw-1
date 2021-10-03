@@ -11,7 +11,7 @@ struct triangle {
     struct point c;
 };
 
-struct triangle triangle_read(struct buffer *buffer);
+struct triangle triangle_read(struct buffer*);
 void triangle_print(struct triangle);
 int triangle_perimiter(struct triangle);
 

@@ -11,7 +11,7 @@ struct circle {
     int radius;
 };
 
-struct circle circle_read(struct buffer *buffer);
+struct circle circle_read(struct buffer*);
 void circle_print(struct circle);
 int circle_perimiter(struct circle);
 

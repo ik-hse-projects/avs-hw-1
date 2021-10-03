@@ -19,7 +19,7 @@ struct shape {
     } value;
 };
 
-struct shape shape_read(struct buffer *buffer);
+struct shape shape_read(struct buffer*);
 void shape_print(struct shape);
 int shape_perimiter(struct shape);
 

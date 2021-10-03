@@ -19,6 +19,7 @@ struct buffer *fd_to_buffer(int fd) {
         char *buffer = malloc(CHUNK_SIZE);
         int length = read(fd, buffer, CHUNK_SIZE - 1);
         if (length == 0) {
+            last->start = NULL;
             free(buffer);
             return result;
         }
@@ -36,6 +37,9 @@ struct buffer *rand_buffer() {
 }
 
 char read_current(struct buffer *self) {
+    if (self->start == NULL || self->position == SIZE_MAX) {
+        return 0;
+    }
     char ch = self->start[self->position];
     if (ch != 0) {
         return ch;
@@ -64,14 +68,19 @@ unsigned int buf_uint(struct buffer *self, unsigned int lower,
     }
 
     unsigned int result = 0;
+    char is_any = 0;
     while (1) {
         char c = read_current(self);
         if ('0' <= c && c <= '9') {
             result = (10 * result) + (c - '0');
             self->position++;
+            is_any = 1;
         } else {
             break;
         }
+    }
+    if (!is_any) {
+        exit(1);
     }
     return result;
 }
@@ -96,13 +105,18 @@ void buf_whitespace(struct buffer *self) {
     if (self->position == SIZE_MAX) {
         return;
     }
+    char is_any = 0;
     while (1) {
         char c = read_current(self);
         if (c == '\t' || c == ' ' || c == '\r' || c == '\n') {
             self->position++;
+            is_any = 1;
         } else {
             break;
         }
+    }
+    if (!is_any) {
+        exit(1);
     }
 }
 

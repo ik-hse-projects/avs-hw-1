@@ -6,12 +6,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/* Реализация хранения, разбора и генерации (при необходимости) входных данных.
+ * Этот модуль серьезно облегчает парсинг данных, благодаря тому, что чтение из stdin происходит
+ * независимо от изменения текущей позиции курсора (size_t position). Это позволяет при
+ * необходимости заглядывать вперёд, не сдвигая курсор.
+ */
+
 struct buffer {
-    size_t position;
-    char *start;
-    struct buffer *next;
+    size_t position;  // текущая позиция в текущем чанке
+    char *start;      // указатель на содержимое текущего чанка
+    struct buffer *next;  // ссылка на следующий буфер
 };
 
+// Переносит данные из файлового дескриптора в память.
 struct buffer *fd_to_buffer(int fd) {
     const size_t CHUNK_SIZE = 4096;
     struct buffer *result = calloc(1, sizeof(struct buffer));
@@ -24,6 +31,7 @@ struct buffer *fd_to_buffer(int fd) {
             free(buffer);
             return result;
         }
+        buffer[length] = 0;
         struct buffer *next = calloc(1, sizeof(struct buffer));
         last->start = buffer;
         last->next = next;
@@ -31,12 +39,14 @@ struct buffer *fd_to_buffer(int fd) {
     }
 }
 
+// Создаёт buffer, содержащий случайные данные
 struct buffer *rand_buffer() {
     struct buffer *result = calloc(1, sizeof(struct buffer));
     result->position = SIZE_MAX;
     return result;
 }
 
+// Возвращает текущий символ буфера
 char read_current(struct buffer *self) {
     if (self->start == NULL || self->position == SIZE_MAX) {
         return 0;
@@ -55,6 +65,7 @@ char read_current(struct buffer *self) {
     return read_current(self);
 }
 
+// Возвращает случайное число в указанном диапазоне
 unsigned int random_in_range(unsigned int lower, unsigned int upper) {
     unsigned int range = upper - lower;
     unsigned int num = rand();
@@ -62,8 +73,8 @@ unsigned int random_in_range(unsigned int lower, unsigned int upper) {
     return result;
 }
 
-unsigned int buf_uint(struct buffer *self, unsigned int lower,
-                      unsigned int upper) {
+// Считывает из буфера беззнаковое целое. Возможно, случайное в указанном диапазоне.
+unsigned int read_uint(struct buffer *self, unsigned int lower, unsigned int upper) {
     if (self->position == SIZE_MAX) {
         return random_in_range(lower, upper);
     }
@@ -81,13 +92,14 @@ unsigned int buf_uint(struct buffer *self, unsigned int lower,
         }
     }
     if (!is_any) {
-        dprintf(2, "Expected number @ %d\n", self->position);
+        dprintf(2, "Expected number @ %ld, found '%d'\n", self->position, read_current(self));
         exit(1);
     }
     return result;
 }
 
-int buf_int(struct buffer *self, unsigned int lower, unsigned int upper) {
+// Считывает из буфера знаковое целое. Возможно, случайное в указанном диапазоне.
+int read_int(struct buffer *self, unsigned int lower, unsigned int upper) {
     if (self->position == SIZE_MAX) {
         return random_in_range(lower, upper);
     }
@@ -97,13 +109,14 @@ int buf_int(struct buffer *self, unsigned int lower, unsigned int upper) {
         sign = -1;
         self->position++;
     }
-    int result = buf_uint(self, 0, UINT_MAX);
+    int result = read_uint(self, 0, UINT_MAX);
     result *= sign;
 
     return result;
 }
 
-void buf_whitespace(struct buffer *self) {
+// Пропускает пробельные символы в буфере.
+void skip_whitespaces(struct buffer *self) {
     if (self->position == SIZE_MAX) {
         return;
     }
@@ -118,11 +131,12 @@ void buf_whitespace(struct buffer *self) {
         }
     }
     if (!is_any) {
-        dprintf(2, "Expected whitespace @ %d\n", self->position);
+        dprintf(2, "Expected whitespace @ %ld, found '%d'\n", self->position, read_current(self));
         exit(1);
     }
 }
 
+// Освобождает память за буфером.
 void free_buffer(struct buffer *self) {
     if (self->start != NULL) {
         free(self->start);

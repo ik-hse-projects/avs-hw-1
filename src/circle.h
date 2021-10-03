@@ -13,6 +13,6 @@ struct circle {
 
 struct circle read_circle(struct buffer*);
 void print_circle(int fd, struct circle);
-int perimiter_of_circle(struct circle);
+double perimiter_of_circle(struct circle);
 
 #endif

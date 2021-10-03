@@ -2,9 +2,10 @@
 
 #include <stdio.h>
 
+// Считывает параметры фигуры из буфера.
 struct shape read_shape(struct buffer *buffer) {
-    unsigned int kind = buf_uint(buffer, 1, MAX_SHAPE);
-    buf_whitespace(buffer);
+    unsigned int kind = read_uint(buffer, 1, MAX_SHAPE);
+    skip_whitespaces(buffer);
     switch (kind) {
         case CIRCLE: {
             struct circle circle = read_circle(buffer);
@@ -13,19 +14,18 @@ struct shape read_shape(struct buffer *buffer) {
         }
         case RECTANGLE: {
             struct rectangle rectangle = read_rectangle(buffer);
-            struct shape result = {.kind = kind,
-                                   .value = {.rectangle = rectangle}};
+            struct shape result = {.kind = kind, .value = {.rectangle = rectangle}};
             return result;
         }
         case TRIANGLE: {
             struct triangle triangle = read_triangle(buffer);
-            struct shape result = {.kind = kind,
-                                   .value = {.triangle = triangle}};
+            struct shape result = {.kind = kind, .value = {.triangle = triangle}};
             return result;
         }
     }
 }
 
+// Выводит информацию о фигуре в указанный файл.
 void print_shape(int fd, struct shape shape) {
     switch (shape.kind) {
         case CIRCLE:
@@ -46,7 +46,8 @@ void print_shape(int fd, struct shape shape) {
     }
 }
 
-int perimiter_of_shape(struct shape shape) {
+// Возвращает периметр фигуры.
+double perimiter_of_shape(struct shape shape) {
     switch (shape.kind) {
         case CIRCLE:
             return perimiter_of_circle(shape.value.circle);

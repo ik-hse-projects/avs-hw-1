@@ -46,11 +46,9 @@ struct options parse_args(int argc, char** argv) {
             dprintf(1, "Shapes:\n");
             dprintf(1, "  Circle:    `1 <color> <x> <y> <radius>`\n");
             dprintf(1, "  Rectangle: `2 <color> <x1> <y1> <x2> <y2>`\n");
-            dprintf(1,
-                    "             where (x1, y1) is the left-upper corner\n");
+            dprintf(1, "             where (x1, y1) is the left-upper corner\n");
             dprintf(1, "             and (x2, y2) is the bottom-left.\n");
-            dprintf(1,
-                    "  Triangle:  `3 <color> <x1> <y1> <x2> <y2> <x3> <y3>`\n");
+            dprintf(1, "  Triangle:  `3 <color> <x1> <y1> <x2> <y2> <x3> <y3>`\n");
             dprintf(1, "Colors:\n");
             for (enum color i = 1; i < MAX_COLOR; ++i) {
                 dprintf(1, "  %d. ", i);
@@ -110,13 +108,15 @@ struct options parse_args(int argc, char** argv) {
 int main(int argc, char** argv) {
     struct options options = parse_args(argc, argv);
 
-    unsigned int count = buf_uint(options.input, 1, 30);
+    unsigned int count = read_uint(options.input, 1, 30);
     struct shapes_vec* container = empty_vec();
     for (int i = 0; i < count; ++i) {
-        buf_whitespace(options.input);
+        skip_whitespaces(options.input);
         struct shape shape = read_shape(options.input);
         *push(container) = shape;
     }
+
+    dprintf(options.output, "Count: %ld\n", length(container));
 
     dprintf(options.output, "Data:\n");
     print_vector(options.output, container);

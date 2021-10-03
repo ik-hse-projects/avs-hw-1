@@ -2,11 +2,13 @@
 
 #include <stdio.h>
 
+// Считывает параметры цвета из буфера.
 enum color read_color(struct buffer *buf) {
-    unsigned int color = buf_uint(buf, 1, MAX_COLOR);
+    unsigned int color = read_uint(buf, 1, MAX_COLOR);
     return color;
 }
 
+// Выводит информацию о цвете в указанный файл.
 void print_color(int fd, enum color color) {
     switch (color) {
         case RED:

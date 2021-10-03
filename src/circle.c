@@ -4,17 +4,19 @@
 #include <math.h>
 #include <stdio.h>
 
+// Считывает параметры круга из буфера.
 struct circle read_circle(struct buffer *buffer) {
     enum color color = read_color(buffer);
-    buf_whitespace(buffer);
+    skip_whitespaces(buffer);
     struct point center = read_point(buffer);
-    buf_whitespace(buffer);
-    unsigned int radius = buf_uint(buffer, 0, UINT_MAX);
+    skip_whitespaces(buffer);
+    unsigned int radius = read_uint(buffer, 0, UINT_MAX);
 
     struct circle result = {.color = color, .center = center, .radius = radius};
     return result;
 }
 
+// Выводит информацию о круге в указанный файл.
 void print_circle(int fd, struct circle self) {
     dprintf(fd, "color=");
     print_color(fd, self.color);
@@ -23,4 +25,5 @@ void print_circle(int fd, struct circle self) {
     dprintf(fd, ", radius=%u", self.radius);
 }
 
-int perimiter_of_circle(struct circle self) { return 2 * M_PI * self.radius; }
+// Возвращает периметр круга.
+double perimiter_of_circle(struct circle self) { return M_PI * 2 * self.radius; }

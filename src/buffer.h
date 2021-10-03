@@ -7,10 +7,9 @@ struct buffer;
 
 struct buffer *fd_to_buffer(int fd);
 struct buffer *rand_buffer();
-unsigned int buf_uint(struct buffer *self, unsigned int lower,
-                      unsigned int upper);
-int buf_int(struct buffer *self, unsigned int lower, unsigned int upper);
-void buf_whitespace(struct buffer *self);
+unsigned int read_uint(struct buffer *self, unsigned int lower, unsigned int upper);
+int read_int(struct buffer *self, unsigned int lower, unsigned int upper);
+void skip_whitespaces(struct buffer *self);
 void free_buffer(struct buffer *self);
 
 #endif

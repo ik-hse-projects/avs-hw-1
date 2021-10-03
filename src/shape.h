@@ -21,6 +21,6 @@ struct shape {
 
 struct shape read_shape(struct buffer*);
 void print_shape(int fd, struct shape);
-int perimiter_of_shape(struct shape);
+double perimiter_of_shape(struct shape);
 
 #endif

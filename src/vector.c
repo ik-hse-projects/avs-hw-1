@@ -1,6 +1,7 @@
 #include "vector.h"
 
 #include "stdlib.h"
+#include "stdio.h"
 #include "string.h"
 
 struct shapes_vec {
@@ -53,10 +54,10 @@ size_t length(struct shapes_vec* self) { return self->length; }
 void selection_sort_by_perimiter(struct shapes_vec* shapes) {
     for (int i = 0; i < shapes->length; i++) {
         struct shape* smallest = shapes->start + i;
-        int perimiter = shape_perimiter(*smallest);
+        int perimiter = perimiter_of_shape(*smallest);
         for (int j = i + 1; j < shapes->length; j++) {
             struct shape* other = shapes->start + j;
-            int p = shape_perimiter(*other);
+            int p = perimiter_of_shape(*other);
             if (p < perimiter) {
                 smallest = other;
                 perimiter = p;
@@ -67,5 +68,14 @@ void selection_sort_by_perimiter(struct shapes_vec* shapes) {
         struct shape b = shapes->start[i];
         shapes->start[i] = a;
         *smallest = b;
+    }
+}
+
+void print_vector(struct shapes_vec* shapes) {
+    for (size_t i = 0; i < shapes->length; ++i) {
+        struct shape shape = *get(shapes, i);
+        printf("%ld. ", i + 1);
+        print_shape(shape);
+        printf("\n");
     }
 }

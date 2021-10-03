@@ -10,7 +10,7 @@ double distance_between(struct point a, struct point b) {
     return sqrt((double)(dx * dx + dy * dy));
 }
 
-struct point point_read(struct buffer *buf) {
+struct point read_point(struct buffer *buf) {
     int x = buf_int(buf, 0, INT_MAX);
     buf_whitespace(buf);
     int y = buf_int(buf, 0, INT_MAX);
@@ -22,4 +22,4 @@ struct point point_read(struct buffer *buf) {
     return result;
 }
 
-void point_print(struct point self) { printf("(%i, %i)", self.x, self.y); }
+void print_point(struct point self) { printf("(%i, %i)", self.x, self.y); }

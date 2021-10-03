@@ -2,23 +2,23 @@
 
 #include <stdio.h>
 
-struct shape shape_read(struct buffer *buffer) {
+struct shape read_shape(struct buffer *buffer) {
     unsigned int kind = buf_uint(buffer, 1, MAX_SHAPE);
     buf_whitespace(buffer);
     switch (kind) {
         case CIRCLE: {
-            struct circle circle = circle_read(buffer);
+            struct circle circle = read_circle(buffer);
             struct shape result = {.kind = kind, .value = {.circle = circle}};
             return result;
         }
         case RECTANGLE: {
-            struct rectangle rectangle = rectangle_read(buffer);
+            struct rectangle rectangle = read_rectangle(buffer);
             struct shape result = {.kind = kind,
                                    .value = {.rectangle = rectangle}};
             return result;
         }
         case TRIANGLE: {
-            struct triangle triangle = triangle_read(buffer);
+            struct triangle triangle = read_triangle(buffer);
             struct shape result = {.kind = kind,
                                    .value = {.triangle = triangle}};
             return result;
@@ -26,19 +26,19 @@ struct shape shape_read(struct buffer *buffer) {
     }
 }
 
-void shape_print(struct shape shape) {
+void print_shape(struct shape shape) {
     switch (shape.kind) {
         case CIRCLE:
             printf("Circle: ");
-            circle_print(shape.value.circle);
+            print_circle(shape.value.circle);
             return;
         case RECTANGLE:
             printf("Rectangle: ");
-            rectangle_print(shape.value.rectangle);
+            print_rectangle(shape.value.rectangle);
             return;
         case TRIANGLE:
             printf("Triangle: ");
-            triangle_print(shape.value.triangle);
+            print_triangle(shape.value.triangle);
             return;
         default:
             printf("Unknown shape: %d", shape.kind);
@@ -46,13 +46,13 @@ void shape_print(struct shape shape) {
     }
 }
 
-int shape_perimiter(struct shape shape) {
+int perimiter_of_shape(struct shape shape) {
     switch (shape.kind) {
         case CIRCLE:
-            return circle_perimiter(shape.value.circle);
+            return perimiter_of_circle(shape.value.circle);
         case RECTANGLE:
-            return rectangle_perimiter(shape.value.rectangle);
+            return perimiter_of_rectangle(shape.value.rectangle);
         case TRIANGLE:
-            return triangle_perimiter(shape.value.triangle);
+            return perimiter_of_triangle(shape.value.triangle);
     }
 }

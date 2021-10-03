@@ -19,8 +19,8 @@ struct shape {
     } value;
 };
 
-struct shape shape_read(struct buffer*);
-void shape_print(struct shape);
-int shape_perimiter(struct shape);
+struct shape read_shape(struct buffer*);
+void print_shape(struct shape);
+int perimiter_of_shape(struct shape);
 
 #endif

@@ -2,14 +2,14 @@
 
 #include <stdio.h>
 
-struct triangle triangle_read(struct buffer *buffer) {
+struct triangle read_triangle(struct buffer *buffer) {
     enum color color = read_color(buffer);
     buf_whitespace(buffer);
-    struct point a = point_read(buffer);
+    struct point a = read_point(buffer);
     buf_whitespace(buffer);
-    struct point b = point_read(buffer);
+    struct point b = read_point(buffer);
     buf_whitespace(buffer);
-    struct point c = point_read(buffer);
+    struct point c = read_point(buffer);
 
     struct triangle result = {
         .a = a,
@@ -19,18 +19,18 @@ struct triangle triangle_read(struct buffer *buffer) {
     return result;
 }
 
-void triangle_print(struct triangle self) {
-    printf("color: ");
+void print_triangle(struct triangle self) {
+    printf("color=");
     print_color(self.color);
-    printf("; points: ");
-    point_print(self.a);
+    printf(", points=");
+    print_point(self.a);
     printf(" - ");
-    point_print(self.b);
+    print_point(self.b);
     printf(" - ");
-    point_print(self.c);
+    print_point(self.c);
 }
 
-int triangle_perimiter(struct triangle self) {
+int perimiter_of_triangle(struct triangle self) {
     return distance_between(self.a, self.b) + distance_between(self.b, self.c) +
            distance_between(self.c, self.a);
 }

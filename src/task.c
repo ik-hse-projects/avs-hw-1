@@ -76,16 +76,17 @@ int main(int argc, char** argv) {
     struct shapes_vec* container = empty_vec();
     for (int i = 0; i < count; ++i) {
         buf_whitespace(buffer);
-        struct shape shape = shape_read(buffer);
+        struct shape shape = read_shape(buffer);
         *push(container) = shape;
     }
+
+    printf("Data:\n");
+    print_vector(container);
+
+    printf("Sorted:\n");
     selection_sort_by_perimiter(container);
-    for (size_t i = 0; i < length(container); ++i) {
-        struct shape shape = *get(container, i);
-        printf("%ld. ", i + 1);
-        shape_print(shape);
-        printf("\n");
-    }
+    print_vector(container);
+
     free_buffer(buffer);
     free_vec(container);
 }

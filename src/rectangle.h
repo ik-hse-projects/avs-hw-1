@@ -11,8 +11,8 @@ struct rectangle {
     struct point bottom_right;
 };
 
-struct rectangle rectangle_read(struct buffer*);
-void rectangle_print(struct rectangle);
-int rectangle_perimiter(struct rectangle);
+struct rectangle read_rectangle(struct buffer*);
+void print_rectangle(struct rectangle);
+int perimiter_of_rectangle(struct rectangle);
 
 #endif

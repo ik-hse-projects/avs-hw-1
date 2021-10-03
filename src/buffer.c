@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 
 struct buffer {
@@ -80,6 +81,7 @@ unsigned int buf_uint(struct buffer *self, unsigned int lower,
         }
     }
     if (!is_any) {
+        dprintf(2, "Expected number @ %d\n", self->position);
         exit(1);
     }
     return result;
@@ -116,6 +118,7 @@ void buf_whitespace(struct buffer *self) {
         }
     }
     if (!is_any) {
+        dprintf(2, "Expected whitespace @ %d\n", self->position);
         exit(1);
     }
 }

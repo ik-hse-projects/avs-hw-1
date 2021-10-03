@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 struct shape shape_read(struct buffer *buffer) {
-    unsigned int kind = buf_uint(buffer);
+    unsigned int kind = buf_uint(buffer, 1, MAX_SHAPE);
     buf_whitespace(buffer);
     switch (kind) {
         case CIRCLE:

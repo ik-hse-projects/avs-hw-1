@@ -10,6 +10,7 @@ struct shape {
         CIRCLE = 1,
         RECTANGLE = 2,
         TRIANGLE = 3,
+        MAX_SHAPE,
     } kind;
     union
     {

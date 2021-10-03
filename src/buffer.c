@@ -1,6 +1,8 @@
-#include "buffer.h"
 #include <stdlib.h>
+#include <limits.h>
+#include <stdint.h>
 #include <unistd.h>
+#include "buffer.h"
 
 struct buffer {
     size_t position;
@@ -26,6 +28,12 @@ struct buffer * fd_to_buffer(int fd ) {
     }
 }
 
+struct buffer * rand_buffer() {
+    struct buffer *result = calloc(1, sizeof(struct buffer));
+    result->position = SIZE_MAX;
+    return result;
+}
+
 char read_current(struct buffer *self) {
     char ch = self->start[self->position];
     if (ch != 0) {
@@ -41,7 +49,18 @@ char read_current(struct buffer *self) {
     return read_current(self);
 }
 
-unsigned int buf_uint(struct buffer *self) {
+unsigned int random_in_range(unsigned int lower, unsigned int upper) {
+    unsigned int range = upper - lower;
+    unsigned int num = rand();
+    unsigned int result = (num % range) + lower;
+    return result;
+}
+
+unsigned int buf_uint(struct buffer *self, unsigned int lower, unsigned int upper) {
+    if (self->position == SIZE_MAX) {
+        return random_in_range(lower, upper);
+    }
+
     unsigned int result = 0;
     while (1) {
         char c = read_current(self);
@@ -52,20 +71,35 @@ unsigned int buf_uint(struct buffer *self) {
             break;
         }
     }
+    if (result < lower || result >= upper) {
+        return lower;
+    }
     return result;
 }
 
-int buf_int(struct buffer *self) {
+int buf_int(struct buffer *self, unsigned int lower, unsigned int upper) {
+    if (self->position == SIZE_MAX) {
+        return random_in_range(lower, upper);
+    }
+
     int sign = 1;
     if (read_current(self) == '-') {
         sign = -1;
         self->position++;
     }
-    unsigned int result = buf_uint(self);
-    return sign * result;
+    int result = buf_uint(self, 0, UINT_MAX);
+    result *= sign;
+    
+    if (result < lower || result >= upper) {
+        return lower;
+    }
+    return result;
 }
 
 void buf_whitespace(struct buffer *self) {
+    if (self->position == SIZE_MAX) {
+        return;
+    }
     while (1) {
         char c = read_current(self);
         if (c == '\t' || c == ' ') {

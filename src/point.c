@@ -1,4 +1,5 @@
 #include "point.h"
+#include <limits.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -9,9 +10,9 @@ double distance_between(struct point a, struct point b) {
 }
 
 struct point point_read(struct buffer *buf) {
-    int x = buf_int(buf);
+    int x = buf_int(buf, 0, INT_MAX);
     buf_whitespace(buf);
-    int y = buf_int(buf);
+    int y = buf_int(buf, 0, INT_MAX);
 
     struct point result = {
         .x = x,

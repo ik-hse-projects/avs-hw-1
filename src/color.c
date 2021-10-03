@@ -2,10 +2,7 @@
 #include <stdio.h>
 
 enum color read_color(struct buffer *buf) {
-    unsigned int color = buf_uint(buf);
-    if (color > MAX_COLOR) {
-        return RED;
-    }
+    unsigned int color = buf_uint(buf, 1, MAX_COLOR);
     return color;
 }
 

@@ -1,4 +1,5 @@
 #include "circle.h"
+#include <limits.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -7,7 +8,7 @@ struct circle circle_read(struct buffer *buffer) {
     buf_whitespace(buffer);
     struct point center = point_read(buffer);
     buf_whitespace(buffer);
-    unsigned int radius = buf_uint(buffer);
+    unsigned int radius = buf_uint(buffer, 0, UINT_MAX);
     
     struct circle result = {
         .color = color,

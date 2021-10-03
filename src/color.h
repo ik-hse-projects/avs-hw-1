@@ -11,9 +11,10 @@ enum color {
     LIGHT_BLUE,
     BLUE,
     PURPLE,
+    MAX_COLOR,
 };
 
-enum color read_color(struct buffer buf);
+enum color read_color(struct buffer *buf);
 void print_color(enum color color);
 
 #endif

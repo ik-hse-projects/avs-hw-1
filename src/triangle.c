@@ -1,6 +1,9 @@
 #include "triangle.h"
+#include <stdio.h>
 
 struct triangle triangle_read(struct buffer *buffer) {
+    enum color color = read_color(buffer);
+    buf_whitespace(buffer);
     struct point a = point_read(buffer);
     buf_whitespace(buffer);
     struct point b = point_read(buffer);
@@ -16,6 +19,9 @@ struct triangle triangle_read(struct buffer *buffer) {
 }
 
 void triangle_print(struct triangle self) {
+    printf("color: ");
+    print_color(self.color);
+    printf("; points: ");
     point_print(self.a);
     printf(" - ");
     point_print(self.b);

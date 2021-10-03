@@ -1,10 +1,12 @@
 #include "shape.h"
+#include <stdio.h>
 
 struct shape shape_read(struct buffer *buffer) {
     unsigned int kind = buf_uint(buffer);
     buf_whitespace(buffer);
     switch (kind) {
         case CIRCLE:
+        {
             struct circle circle = circle_read(buffer);
             struct shape result = {
                 .kind = kind,
@@ -13,7 +15,9 @@ struct shape shape_read(struct buffer *buffer) {
                 }
             };
             return result;
+        }
         case RECTANGLE:
+        {
             struct rectangle rectangle = rectangle_read(buffer);
             struct shape result = {
                 .kind = kind,
@@ -22,7 +26,9 @@ struct shape shape_read(struct buffer *buffer) {
                 }
             };
             return result;
+        }
         case TRIANGLE:
+        {
             struct triangle triangle = triangle_read(buffer);
             struct shape result = {
                 .kind = kind,
@@ -31,6 +37,7 @@ struct shape shape_read(struct buffer *buffer) {
                 }
             };
             return result;
+        }
     }
 }
 
@@ -47,6 +54,9 @@ void shape_print(struct shape shape) {
         case TRIANGLE:
             printf("Triangle: ");
             triangle_print(shape.value.triangle);
+            return;
+        default:
+            printf("Unknown shape: %d", shape.kind);
             return;
     }
 }

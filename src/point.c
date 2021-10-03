@@ -1,10 +1,11 @@
 #include "point.h"
 #include <math.h>
+#include <stdio.h>
 
 double distance_between(struct point a, struct point b) {
     int dx = b.x - a.x;
     int dy = b.y - a.y;
-    return sqrt(dx*dx + dy*dy);
+    return sqrt((double)(dx*dx + dy*dy));
 }
 
 struct point point_read(struct buffer *buf) {
@@ -20,5 +21,5 @@ struct point point_read(struct buffer *buf) {
 }
 
 void point_print(struct point self) {
-    printf("(%n, %n)", self.x, self.y);
+    printf("(%i, %i)", self.x, self.y);
 }

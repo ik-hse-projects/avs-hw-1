@@ -1,10 +1,12 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
+#include "color.h"
 #include "point.h"
 
 struct triangle
 {
+    enum color color;
     struct point a;
     struct point b;
     struct point c;

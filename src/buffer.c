@@ -1,34 +1,35 @@
-#include <stdlib.h>
+#include "buffer.h"
+
 #include <limits.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include "buffer.h"
 
 struct buffer {
     size_t position;
-    char* start;
+    char *start;
     struct buffer *next;
 };
 
-struct buffer * fd_to_buffer(int fd ) {
+struct buffer *fd_to_buffer(int fd) {
     const size_t CHUNK_SIZE = 4096;
     struct buffer *result = calloc(1, sizeof(struct buffer));
     struct buffer *last = result;
     while (1) {
-        char* buffer = malloc(CHUNK_SIZE);
+        char *buffer = malloc(CHUNK_SIZE);
         int length = read(fd, buffer, CHUNK_SIZE - 1);
         if (length == 0) {
             free(buffer);
             return result;
         }
-        struct buffer * next = calloc(1, sizeof(struct buffer));
+        struct buffer *next = calloc(1, sizeof(struct buffer));
         last->start = buffer;
         last->next = next;
         last = next;
     }
 }
 
-struct buffer * rand_buffer() {
+struct buffer *rand_buffer() {
     struct buffer *result = calloc(1, sizeof(struct buffer));
     result->position = SIZE_MAX;
     return result;
@@ -40,7 +41,7 @@ char read_current(struct buffer *self) {
         return ch;
     }
     if (self->next == 0) {
-        return 0; 
+        return 0;
     }
     struct buffer next = *(self->next);
     free(self->start);
@@ -56,7 +57,8 @@ unsigned int random_in_range(unsigned int lower, unsigned int upper) {
     return result;
 }
 
-unsigned int buf_uint(struct buffer *self, unsigned int lower, unsigned int upper) {
+unsigned int buf_uint(struct buffer *self, unsigned int lower,
+                      unsigned int upper) {
     if (self->position == SIZE_MAX) {
         return random_in_range(lower, upper);
     }
@@ -70,9 +72,6 @@ unsigned int buf_uint(struct buffer *self, unsigned int lower, unsigned int uppe
         } else {
             break;
         }
-    }
-    if (result < lower || result >= upper) {
-        return lower;
     }
     return result;
 }
@@ -89,10 +88,7 @@ int buf_int(struct buffer *self, unsigned int lower, unsigned int upper) {
     }
     int result = buf_uint(self, 0, UINT_MAX);
     result *= sign;
-    
-    if (result < lower || result >= upper) {
-        return lower;
-    }
+
     return result;
 }
 
@@ -102,7 +98,7 @@ void buf_whitespace(struct buffer *self) {
     }
     while (1) {
         char c = read_current(self);
-        if (c == '\t' || c == ' ') {
+        if (c == '\t' || c == ' ' || c == '\r' || c == '\n') {
             self->position++;
         } else {
             break;

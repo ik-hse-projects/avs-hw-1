@@ -1,13 +1,13 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include "stddef.h"
 #include "shape.h"
+#include "stddef.h"
 
 struct shapes_vec {
     size_t length;
     size_t capacity;
-    struct shape *start;
+    struct shape* start;
 };
 
 static const struct shapes_vec EMPTY_VEC;

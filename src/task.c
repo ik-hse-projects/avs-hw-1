@@ -1,9 +1,12 @@
-#include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
 #include "shape.h"
 
-struct buffer * parse_args(int argc, char** argv) {
+struct buffer* parse_args(int argc, char** argv) {
     if (argc <= 1) {
+        printf("Finish input with EOF (Ctrl+D). Run with -h for help\n");
         return fd_to_buffer(0);
     }
 
@@ -13,22 +16,20 @@ struct buffer * parse_args(int argc, char** argv) {
     }
     char* option = argv[1];
     char* argument = argv[2];
-    struct buffer * buffer;
+    struct buffer* buffer;
 
     // Ensure that option looks like '-', symbol, '\0'
     if (!(option[0] == '-' && option[1] != '\0' && option[2] == '\0')) {
         return NULL;
     }
     switch (option[1]) {
-        case 'f':
-        {
+        case 'f': {
             // Read from file
             int file = open(argument, "r");
             buffer = fd_to_buffer(file);
             break;
         }
-        case 'r':
-        {
+        case 'r': {
             // Randomized
             int seed = atoi(argument);
             srand(seed);
@@ -40,18 +41,36 @@ struct buffer * parse_args(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
-    struct buffer * buffer = parse_args(argc, argv);
+    struct buffer* buffer = parse_args(argc, argv);
     if (buffer == NULL) {
         printf("Usage:\n");
-        printf("    No args to read from stdin\n");
-        printf("    -f <filename> to read from file\n");
-        printf("    -r <seed> to use random values\n");
+        printf("  No args to read from stdin.\n");
+        printf("  -f <filename> to read from file\n");
+        printf("  -r <seed> to use random values\n");
+        printf("Input format:\n");
+        printf("  First line contains number of shapes.\n");
+        printf("  In the following lines shapes are entered.\n");
+        printf("  All values are separated using whitespace\n");
+        printf("Shapes:\n");
+        printf("  Circle:    `1 <color> <x> <y> <radius>`\n");
+        printf("  Rectangle: `2 <color> <x1> <y1> <x2> <y2>`\n");
+        printf("             where (x1, y1) is the left-upper corner\n");
+        printf("             and (x2, y2) is the bottom-left.\n");
+        printf("  Triangle:  `3 <color> <x1> <y1> <x2> <y2> <x3> <y3>`\n");
+        printf("Colors:\n");
+        for (enum color i = 1; i < MAX_COLOR; ++i) {
+            printf("  %d. ", i);
+            print_color(i);
+            printf("\n");
+        }
         return 1;
     }
 
-    printf("\nResult:\n");
-    struct shape shape = shape_read(buffer);
-    shape_print(shape);
-    printf("\nDone:\n");
+    unsigned int count = buf_uint(buffer, 1, 30);
+    for (int i = 0; i < count; ++i) {
+        buf_whitespace(buffer);
+        struct shape shape = shape_read(buffer);
+        shape_print(shape);
+    }
     free_buffer(buffer);
 }

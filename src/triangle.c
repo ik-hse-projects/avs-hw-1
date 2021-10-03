@@ -1,4 +1,5 @@
 #include "triangle.h"
+
 #include <stdio.h>
 
 struct triangle triangle_read(struct buffer *buffer) {
@@ -30,7 +31,6 @@ void triangle_print(struct triangle self) {
 }
 
 int triangle_perimiter(struct triangle self) {
-    return distance_between(self.a, self.b)
-         + distance_between(self.b, self.c)
-         + distance_between(self.c, self.a);
+    return distance_between(self.a, self.b) + distance_between(self.b, self.c) +
+           distance_between(self.c, self.a);
 }

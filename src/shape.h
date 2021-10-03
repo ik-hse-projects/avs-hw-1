@@ -12,8 +12,7 @@ struct shape {
         TRIANGLE = 3,
         MAX_SHAPE,
     } kind;
-    union
-    {
+    union {
         struct circle circle;
         struct rectangle rectangle;
         struct triangle triangle;

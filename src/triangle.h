@@ -4,8 +4,7 @@
 #include "color.h"
 #include "point.h"
 
-struct triangle
-{
+struct triangle {
     enum color color;
     struct point a;
     struct point b;

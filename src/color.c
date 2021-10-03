@@ -1,4 +1,5 @@
 #include "color.h"
+
 #include <stdio.h>
 
 enum color read_color(struct buffer *buf) {
@@ -7,8 +8,7 @@ enum color read_color(struct buffer *buf) {
 }
 
 void print_color(enum color color) {
-    switch (color)
-    {
+    switch (color) {
         case RED:
             printf("red");
             break;

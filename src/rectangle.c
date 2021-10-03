@@ -1,4 +1,5 @@
 #include "rectangle.h"
+
 #include <stdio.h>
 
 struct rectangle rectangle_read(struct buffer *buffer) {

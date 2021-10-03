@@ -1,7 +1,8 @@
 #include "circle.h"
+
 #include <limits.h>
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 struct circle circle_read(struct buffer *buffer) {
     enum color color = read_color(buffer);
@@ -9,12 +10,8 @@ struct circle circle_read(struct buffer *buffer) {
     struct point center = point_read(buffer);
     buf_whitespace(buffer);
     unsigned int radius = buf_uint(buffer, 0, UINT_MAX);
-    
-    struct circle result = {
-        .color = color,
-        .center = center,
-        .radius = radius
-    };
+
+    struct circle result = {.color = color, .center = center, .radius = radius};
     return result;
 }
 
@@ -26,6 +23,4 @@ void circle_print(struct circle self) {
     printf("; radius: %u", self.radius);
 }
 
-int circle_perimiter(struct circle self) {
-    return 2 * M_PI * self.radius;
-}
+int circle_perimiter(struct circle self) { return 2 * M_PI * self.radius; }

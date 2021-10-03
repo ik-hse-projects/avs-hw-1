@@ -1,41 +1,26 @@
 #include "shape.h"
+
 #include <stdio.h>
 
 struct shape shape_read(struct buffer *buffer) {
     unsigned int kind = buf_uint(buffer, 1, MAX_SHAPE);
     buf_whitespace(buffer);
     switch (kind) {
-        case CIRCLE:
-        {
+        case CIRCLE: {
             struct circle circle = circle_read(buffer);
-            struct shape result = {
-                .kind = kind,
-                .value = {
-                    .circle = circle
-                }
-            };
+            struct shape result = {.kind = kind, .value = {.circle = circle}};
             return result;
         }
-        case RECTANGLE:
-        {
+        case RECTANGLE: {
             struct rectangle rectangle = rectangle_read(buffer);
-            struct shape result = {
-                .kind = kind,
-                .value = {
-                    .rectangle = rectangle
-                }
-            };
+            struct shape result = {.kind = kind,
+                                   .value = {.rectangle = rectangle}};
             return result;
         }
-        case TRIANGLE:
-        {
+        case TRIANGLE: {
             struct triangle triangle = triangle_read(buffer);
-            struct shape result = {
-                .kind = kind,
-                .value = {
-                    .triangle = triangle
-                }
-            };
+            struct shape result = {.kind = kind,
+                                   .value = {.triangle = triangle}};
             return result;
         }
     }

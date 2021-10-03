@@ -5,8 +5,7 @@
 #include "color.h"
 #include "point.h"
 
-struct rectangle
-{
+struct rectangle {
     enum color color;
     struct point top_left;
     struct point bottom_right;

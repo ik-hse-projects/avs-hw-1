@@ -21,9 +21,9 @@
 
 Параметры компьютера:
 
-- **Процессор:**  AMD Athlon(tm) X4 750K Quad Core Processor
-- **ОС:** NixOS 21.11.git.e83b22e2a36
-- **Kernel:** `Linux 5.10.69 x86_64`
+- **Процессор:**  Intel(R) Core(TM) i5 CPU M 560 @ 2.67GHz
+- **ОС:** Arch Linux
+- **Kernel:** `Linux 5.14.14-arch1-1 x86_64`
 
 ## Использование памяти
 
@@ -84,3 +84,15 @@
 
 # Модули
 По одному модулю (`.c` + `.h`) на каждую структуру, получаем 8 модулей. Плюс точка входа `main.c`
+
+# Производительность
+```
+> AVS2 -f /tmp/tests/1000.in -o /tmp/tests/1000.out
+Executed in   134.01 millis
+
+> AVS2 -f /tmp/tests/5000.in -o /tmp/tests/5000.out
+Executed in    1.44 secs
+
+>  ./build/AVS2 -f /tmp/tests/10000.in -o /tmp/tests/10000.out
+Executed in    4.92 secs
+```

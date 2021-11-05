@@ -11,7 +11,7 @@
 
 # Компиляция и запуск
 ```bash
-./build.sh -DCMAKE_BUILD_TYPE=Release && ./build/AVS1
+./build.sh -DCMAKE_BUILD_TYPE=Release && ./build/AVS1 -h
 ```
 
 # Использование
@@ -69,10 +69,12 @@
     * Итого: 32
 
 - `struct buffer`
-    * `size_t position` — 8 (0)
-    * `char* start` — 8 (8), на куче, 4КиБ.
-    * `buffer* next` – 8 (16), на куче 24 байта
-    * Итого: 24
+    * `int fd` — 4 (0)
+    * `int mirror` — 4 (4)
+    * `size_t position` – 8 (8)
+    * `size_t offset` – 8 (16)
+    * `char* offset` – 8 (24), на куче 4096 байт
+    * Итого: 32
 
 - `struct vector`
     * `size_t length` — 8 (0)
@@ -87,12 +89,12 @@
 
 # Производительность
 ```
-> AVS2 -f /tmp/tests/1000.in -o /tmp/tests/1000.out
-Executed in   134.01 millis
+> AVS1 -f tests/in/1000.txt -o tests/out/1000.txt
+Executed in    67.46 millis
 
-> AVS2 -f /tmp/tests/5000.in -o /tmp/tests/5000.out
-Executed in    1.44 secs
+> AVS1 -f tests/in/5000.txt -o tests/out/5000.txt
+Executed in    598.46 millis
 
->  ./build/AVS2 -f /tmp/tests/10000.in -o /tmp/tests/10000.out
-Executed in    4.92 secs
+> AVS1 -f tests/in/10000.txt -o tests/out/10000.txt
+Executed in    2.03 secs
 ```

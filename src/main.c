@@ -9,12 +9,14 @@
 struct options {
     struct buffer* input;
     int output;
+    int mirror;
 };
 
 struct options parse_args(int argc, char** argv) {
     struct options result = {
         .input = NULL,
         .output = 1,
+        .mirror = -1,
     };
 
     if (argc <= 1) {
@@ -38,6 +40,7 @@ struct options parse_args(int argc, char** argv) {
             dprintf(1, "  default: read from stdin, write to stdout.\n");
             dprintf(1, "  -r <seed> to use random values\n");
             dprintf(1, "  -f <filename> to read from file\n");
+            dprintf(1, "  -m <filename> to mirror the input to the file\n");
             dprintf(1, "  -o <filename> to set output file\n");
             dprintf(1, "Input format:\n");
             dprintf(1, "  First line contains number of shapes.\n");
@@ -84,6 +87,17 @@ struct options parse_args(int argc, char** argv) {
                 result.input = fd_to_buffer(file);
                 break;
             }
+            case 'm': {
+                // Mirror to file
+                int file = open(argument, O_WRONLY | O_CREAT, 0644);
+                if (file < 0) {
+                    dprintf(2, "Can't open the file `%s`: %d", argument, errno);
+                    exit(1);
+                }
+
+                result.mirror = file;
+                break;
+            }
             case 'o': {
                 // Output to file
                 int file = open(argument, O_WRONLY | O_CREAT, 0644);
@@ -107,6 +121,7 @@ struct options parse_args(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     struct options options = parse_args(argc, argv);
+    set_mirror(options.input, options.mirror);
 
     unsigned int count = read_uint(options.input, 1, 30);
     struct shapes_vec* container = empty_vec();

@@ -7,6 +7,7 @@ struct buffer;
 
 struct buffer *fd_to_buffer(int fd);
 struct buffer *rand_buffer();
+void set_mirror(struct buffer *self, int mirror);
 unsigned int read_uint(struct buffer *self, unsigned int lower, unsigned int upper);
 int read_int(struct buffer *self, unsigned int lower, unsigned int upper);
 void skip_whitespaces(struct buffer *self);
